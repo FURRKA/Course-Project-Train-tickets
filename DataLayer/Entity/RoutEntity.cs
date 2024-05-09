@@ -2,7 +2,7 @@
 
 namespace DataLayer.Entity
 {
-    internal class RoutEntity : IEntity
+    public class RoutEntity : IEntity
     {
         public int Id { get; set; }
         public string RouteName { get; set; }

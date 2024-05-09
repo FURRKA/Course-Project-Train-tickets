@@ -2,17 +2,14 @@
 
 namespace DataLayer.Entity
 {
-    public class ClientEntity : IEntity
+    public class StationEntity : IEntity
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public string Passport { get; set; }
-
-        public ClientEntity(int id, string name, string passport)
+        public StationEntity(int id, string name)
         {
             Id = id;
             Name = name;
-            Passport = passport;
         }
     }
 }

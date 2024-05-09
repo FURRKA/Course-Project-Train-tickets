@@ -2,7 +2,7 @@
 
 namespace DataLayer.Interfaces
 {
-    internal interface IEntity
+    public interface IEntity
     {
         public int Id { get; set; }
     }

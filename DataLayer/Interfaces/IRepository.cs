@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DataLayer.Interfaces
 {
-    public interface IRepository<T> where T : IEntity
+    public interface IRepository<T>
     {
         public List<T> Data { get; }
         public int Count { get; }

@@ -1,5 +1,4 @@
 using BIL.Services;
-using System.Windows.Forms;
 
 namespace GUI_Layer
 {
@@ -25,24 +24,33 @@ namespace GUI_Layer
         private void button1_Click(object sender, EventArgs e)
         {
             var resultRoutes = routeService.FindRoute(comboBox1.Text, comboBox2.Text)
-                .Select(item => new { Маршрут = item.RouteName })
                 .ToList();
 
             if (resultRoutes.Count > 0)
             {
                 routeGrid.Visible = true;
-                routeGrid.DataSource = resultRoutes;
+                routeGrid.DataSource = resultRoutes.Select(item => new { Маршрут = item.RouteName }).ToList();
                 if (!isColumnAdded)
                 {
                     var informationButtonsColumn = new DataGridViewButtonColumn { HeaderText = "Информация", Text = "Станции", UseColumnTextForButtonValue = true };
+                    var activeButtonsCilumn = new DataGridViewButtonColumn { HeaderText = "Действие", Text = "Выбрать", UseColumnTextForButtonValue = true };
                     routeGrid.CellContentClick += (sender, e) =>
                     {
-                        if (routeGrid.Columns[e.ColumnIndex].Name == informationButtonsColumn.HeaderText)
+                        if (routeGrid.Columns[e.ColumnIndex].HeaderText == informationButtonsColumn.HeaderText)
                         {
-                            MessageBox.Show("Привет!");
+                            routeService.RouteId = resultRoutes[e.RowIndex].Id;
+                            var info = new StaitonsInRouteForm(routeService.StationsInRoute());
+                            info.Show();
+                        }
+                        if (routeGrid.Columns[e.ColumnIndex].HeaderText == activeButtonsCilumn.HeaderText)
+                        {
+                            routeService.RouteId = resultRoutes[e.RowIndex].Id;
+                            int dist = routeService.GetRouteDistance();
+                            var car = new SeatCar(2, dist);
+                            car.ShowDialog();
                         }
                     };
-                    routeGrid.Columns.Add(informationButtonsColumn);
+                    routeGrid.Columns.AddRange(informationButtonsColumn, activeButtonsCilumn);
                     isColumnAdded = true;
                     label8.Visible = false;
                 }
@@ -52,8 +60,8 @@ namespace GUI_Layer
             {
                 routeGrid.Visible=false;
                 label8.Visible = true;
+                tabControl1.SelectedIndex = 1;
             }
-
         }
     }
 }

@@ -40,7 +40,6 @@
             this.label1 = new System.Windows.Forms.Label();
             this.tabPage5 = new System.Windows.Forms.TabPage();
             this.label8 = new System.Windows.Forms.Label();
-            this.button4 = new System.Windows.Forms.Button();
             this.routeGrid = new System.Windows.Forms.DataGridView();
             this.label7 = new System.Windows.Forms.Label();
             this.tabPage2 = new System.Windows.Forms.TabPage();
@@ -180,7 +179,6 @@
             // tabPage5
             // 
             this.tabPage5.Controls.Add(this.label8);
-            this.tabPage5.Controls.Add(this.button4);
             this.tabPage5.Controls.Add(this.routeGrid);
             this.tabPage5.Controls.Add(this.label7);
             this.tabPage5.Location = new System.Drawing.Point(4, 4);
@@ -197,22 +195,9 @@
             this.label8.Font = new System.Drawing.Font("Century Gothic", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.label8.Location = new System.Drawing.Point(43, 161);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(294, 30);
+            this.label8.Size = new System.Drawing.Size(295, 30);
             this.label8.TabIndex = 8;
-            this.label8.Text = "Маршурты не выбраны";
-            // 
-            // button4
-            // 
-            this.button4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
-            this.button4.Enabled = false;
-            this.button4.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.button4.ForeColor = System.Drawing.Color.White;
-            this.button4.Location = new System.Drawing.Point(0, 376);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(382, 46);
-            this.button4.TabIndex = 7;
-            this.button4.Text = "Отменить билет";
-            this.button4.UseVisualStyleBackColor = false;
+            this.label8.Text = "Маршурты не найдены";
             // 
             // routeGrid
             // 
@@ -224,7 +209,7 @@
             this.routeGrid.Name = "routeGrid";
             this.routeGrid.ReadOnly = true;
             this.routeGrid.RowTemplate.Height = 25;
-            this.routeGrid.Size = new System.Drawing.Size(382, 343);
+            this.routeGrid.Size = new System.Drawing.Size(382, 389);
             this.routeGrid.TabIndex = 6;
             this.routeGrid.Visible = false;
             // 
@@ -388,7 +373,6 @@
         private DataGridView paymentBasketGrid;
         private Label label6;
         private TabPage tabPage5;
-        private Button button4;
         private DataGridView routeGrid;
         private Label label7;
         private Label label8;

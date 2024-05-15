@@ -1,6 +1,6 @@
 ﻿namespace GUI_Layer
 {
-    partial class Car
+    partial class SeatCar
     {
         /// <summary>
         /// Required designer variable.
@@ -661,7 +661,7 @@
             this.label3.TabIndex = 56;
             this.label3.Text = "Стоимость";
             // 
-            // Car
+            // SeatCar
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -723,7 +723,8 @@
             this.Controls.Add(this.button2);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.pictureBox1);
-            this.Name = "Car";
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.Name = "SeatCar";
             this.Text = "Car";
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);

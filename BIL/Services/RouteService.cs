@@ -1,6 +1,6 @@
 ﻿using DataLayer.Entity;
 using DataLayer.Repository;
-using System.Transactions;
+using System.Runtime.InteropServices;
 
 namespace BIL.Services
 {
@@ -85,6 +85,11 @@ namespace BIL.Services
             int finalIndex = routeStationList.Data[RouteId].IndexOf(finalStation.Id);
             var stationsInRoute = routeStationList.Data[RouteId].Take(startIndex..(finalIndex+1)).ToList();
             return distances.Data.Where(item => stationsInRoute.Contains(item.IdFirst) && stationsInRoute.Contains(item.IdSecond)).Sum(item => item.Distance);
+        }
+
+        public void GetTrainId()
+        {
+            TrainId = trains.Data.FirstOrDefault(item => item.Value.Contains(RouteId)).Key;
         }
     }
 }

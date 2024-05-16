@@ -119,7 +119,7 @@
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(355, 55);
             this.button1.TabIndex = 10;
-            this.button1.Text = "Найти";
+            this.button1.Text = "Подтвердить";
             this.button1.UseVisualStyleBackColor = false;
             // 
             // ClientFillForm

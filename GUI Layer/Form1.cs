@@ -5,12 +5,14 @@ namespace GUI_Layer
     public partial class Form1 : Form
     {
         private RouteService routeService;
+        private DataService dataService;
         private bool isColumnAdded = false;
         public Form1()
         {
             string path = "Data Source=D:\\GSTU\\ßÏÂÓ\\Course Project Train tickets\\DataLayer\\DB_CourseWork.db";
             InitializeComponent();
             routeService = new RouteService(path);
+            dataService = new DataService(path);
             dateTimePicker1.MinDate = DateTime.Now;
             dateTimePicker1.MaxDate = DateTime.Now + TimeSpan.FromDays(60);
 
@@ -46,9 +48,10 @@ namespace GUI_Layer
                         if (routeGrid.Columns[e.ColumnIndex].HeaderText == activeButtonsCilumn.HeaderText)
                         {
                             routeService.RouteId = resultRoutes[e.RowIndex].Id;
+                            routeService.GetTrainId();
                             int dist = routeService.GetRouteDistance();
-                            var car = new SeatCar(2, 609, dist, routeService.Cost, dateTimePicker1.Value);
-                            car.ShowDialog();
+                            var car = new SeatCar(routeService.TrainId, 2, dist, routeService.Cost, dateTimePicker1.Value, dataService);
+                            car.Show();
                         }
                     };
 

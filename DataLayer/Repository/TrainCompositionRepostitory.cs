@@ -1,6 +1,5 @@
 ﻿using Microsoft.Data.Sqlite;
 using System.Text;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace DataLayer.Repository
 {
@@ -73,7 +72,7 @@ namespace DataLayer.Repository
         public void Create(int trainID, int carNumber, string Date, string seats)
         {
             connection.Open();
-            if (!Find(trainID, carNumber, Date, StringToList(seats)))
+            if (!Find(trainID, carNumber, Date))
             {
                 FillData(trainID, carNumber, Date, seats);
                 var command = new SqliteCommand($"INSERT INTO Seats VALUES ({trainID},{carNumber},'{Date}','{ListToString(collection[trainID][Date][carNumber])}')", connection);
@@ -85,7 +84,7 @@ namespace DataLayer.Repository
         public void Update(int trainID, int carNumber, string date)
         {
             connection.Open();
-            var command = new SqliteCommand($"UPDATE Seats Set fill='{ListToString(collection[trainID][date][carNumber])}'", connection);
+            var command = new SqliteCommand($"UPDATE Seats Set fill='{ListToString(collection[trainID][date][carNumber])}' WHERE id_train = {trainID}", connection);
             command.ExecuteNonQuery();
             connection.Close();
 
@@ -108,7 +107,7 @@ namespace DataLayer.Repository
                 {
                     if (DateTime.Parse(time.Key) < DateTime.Today)
                     {
-                        var command = new SqliteCommand($"DELETE FROM Seats WHERE date='{time}'", connection);
+                        var command = new SqliteCommand($"DELETE FROM Seats WHERE date='{time.Key}'", connection);
                         command.ExecuteNonQuery();
                     }
                 }
@@ -132,7 +131,7 @@ namespace DataLayer.Repository
             return sb.ToString();
         }
 
-        private bool Find(int trainID, int carNumber, string Date, List<int> seats)
+        public bool Find(int trainID, int carNumber, string Date)
         {
             if (!collection.ContainsKey(trainID))
                 return false;

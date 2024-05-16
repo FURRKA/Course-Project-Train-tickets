@@ -34,22 +34,24 @@ namespace GUI_Layer
                 {
                     var informationButtonsColumn = new DataGridViewButtonColumn { HeaderText = "Информация", Text = "Станции", UseColumnTextForButtonValue = true };
                     var activeButtonsCilumn = new DataGridViewButtonColumn { HeaderText = "Действие", Text = "Выбрать", UseColumnTextForButtonValue = true };
+
                     routeGrid.CellContentClick += (sender, e) =>
                     {
                         if (routeGrid.Columns[e.ColumnIndex].HeaderText == informationButtonsColumn.HeaderText)
                         {
                             routeService.RouteId = resultRoutes[e.RowIndex].Id;
-                            var info = new StaitonsInRouteForm(routeService.StationsInRoute());
-                            info.Show();
+                            var info = new StaitonsInRouteForm(resultRoutes[e.RowIndex].RouteName, routeService.StationsInRoute());
+                            info.ShowDialog();
                         }
                         if (routeGrid.Columns[e.ColumnIndex].HeaderText == activeButtonsCilumn.HeaderText)
                         {
                             routeService.RouteId = resultRoutes[e.RowIndex].Id;
                             int dist = routeService.GetRouteDistance();
-                            var car = new SeatCar(2, dist);
+                            var car = new SeatCar(2, 609, dist, routeService.Cost, dateTimePicker1.Value);
                             car.ShowDialog();
                         }
                     };
+
                     routeGrid.Columns.AddRange(informationButtonsColumn, activeButtonsCilumn);
                     isColumnAdded = true;
                     label8.Visible = false;

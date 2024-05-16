@@ -1,5 +1,6 @@
 ﻿using DataLayer.Entity;
 using DataLayer.Repository;
+using System.Transactions;
 
 namespace BIL.Services
 {
@@ -10,10 +11,13 @@ namespace BIL.Services
         private DistanceRepository distances;
         private RouteStationsDictionary routeStationList;
         private DirectoryRepository directory;
+        private TrainsRouteRepository trains;
 
         private StationEntity startStation;
         private StationEntity finalStation;
         public int RouteId { get; set; }
+        public int TrainId { get; set; }
+        public double Cost { get; set; }
         public RouteService(string DBpath)
         {
             stations = new StationsRepository(DBpath);
@@ -21,12 +25,15 @@ namespace BIL.Services
             distances = new DistanceRepository(DBpath);
             routeStationList = new RouteStationsDictionary(DBpath);
             directory = new DirectoryRepository(DBpath);
+            trains = new TrainsRouteRepository(DBpath);
 
             stations.Read();
+            trains.Read();
             routes.Read();
             distances.Read();
             routeStationList.Read();
             directory.Read();
+            Cost = 0.06;
         }
 
         public List<string> StationsNames()
@@ -60,10 +67,13 @@ namespace BIL.Services
         public List<dynamic> StationsInRoute()
         {
             var stationsInRoute = routeStationList.Data[RouteId];
-            var time = directory.Data.Where(item => stationsInRoute.Contains(item.StationId) && item.RouteId == RouteId)
+            TrainId = trains.Data.FirstOrDefault(item => item.Value.Contains(RouteId)).Key;
+
+            var time = directory.Data.Where(item => stationsInRoute.Contains(item.StationId) && item.RouteId == RouteId && trains.Data[TrainId].Contains(item.RouteId))
                 .ToList();
+
             var result = stationsInRoute
-                .Join(time, s => s, t => t.StationId, (s, t) => new { stations.Data[s-1].Name, t.Time })
+                .Join(time, s => s, t => t.StationId, (s, t) => new {Станция = stations.Data[s-1].Name, Время = t.Time, Поезд = t.TrainId })
                 .ToList<dynamic>();
 
             return result;

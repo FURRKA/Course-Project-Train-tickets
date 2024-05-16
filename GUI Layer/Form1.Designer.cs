@@ -43,7 +43,6 @@
             this.routeGrid = new System.Windows.Forms.DataGridView();
             this.label7 = new System.Windows.Forms.Label();
             this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.button2 = new System.Windows.Forms.Button();
             this.offerGrid = new System.Windows.Forms.DataGridView();
             this.label5 = new System.Windows.Forms.Label();
             this.tabPage3 = new System.Windows.Forms.TabPage();
@@ -51,6 +50,7 @@
             this.button3 = new System.Windows.Forms.Button();
             this.paymentBasketGrid = new System.Windows.Forms.DataGridView();
             this.label6 = new System.Windows.Forms.Label();
+            this.ordersLabel = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage5.SuspendLayout();
@@ -225,7 +225,7 @@
             // 
             // tabPage2
             // 
-            this.tabPage2.Controls.Add(this.button2);
+            this.tabPage2.Controls.Add(this.ordersLabel);
             this.tabPage2.Controls.Add(this.offerGrid);
             this.tabPage2.Controls.Add(this.label5);
             this.tabPage2.Location = new System.Drawing.Point(4, 4);
@@ -236,19 +236,6 @@
             this.tabPage2.Text = "Заказы";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
-            // button2
-            // 
-            this.button2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
-            this.button2.Enabled = false;
-            this.button2.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.button2.ForeColor = System.Drawing.Color.White;
-            this.button2.Location = new System.Drawing.Point(0, 379);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(382, 46);
-            this.button2.TabIndex = 4;
-            this.button2.Text = "Отменить билет";
-            this.button2.UseVisualStyleBackColor = false;
-            // 
             // offerGrid
             // 
             this.offerGrid.BackgroundColor = System.Drawing.Color.White;
@@ -256,8 +243,9 @@
             this.offerGrid.Location = new System.Drawing.Point(0, 39);
             this.offerGrid.Name = "offerGrid";
             this.offerGrid.RowTemplate.Height = 25;
-            this.offerGrid.Size = new System.Drawing.Size(382, 343);
+            this.offerGrid.Size = new System.Drawing.Size(382, 386);
             this.offerGrid.TabIndex = 3;
+            this.offerGrid.Visible = false;
             // 
             // label5
             // 
@@ -325,6 +313,16 @@
             this.label6.TabIndex = 5;
             this.label6.Text = "Корзина";
             // 
+            // ordersLabel
+            // 
+            this.ordersLabel.AutoSize = true;
+            this.ordersLabel.Font = new System.Drawing.Font("Century Gothic", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.ordersLabel.Location = new System.Drawing.Point(24, 200);
+            this.ordersLabel.Name = "ordersLabel";
+            this.ordersLabel.Size = new System.Drawing.Size(343, 30);
+            this.ordersLabel.TabIndex = 9;
+            this.ordersLabel.Text = "Нету действующих билетов";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -365,7 +363,6 @@
         private Label label2;
         private ComboBox comboBox2;
         private Button button1;
-        private Button button2;
         private DataGridView offerGrid;
         private Label label5;
         private TabPage tabPage4;
@@ -376,5 +373,6 @@
         private DataGridView routeGrid;
         private Label label7;
         private Label label8;
+        private Label ordersLabel;
     }
 }

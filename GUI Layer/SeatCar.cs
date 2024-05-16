@@ -1,18 +1,40 @@
-﻿namespace GUI_Layer
+﻿using BIL.Services;
+
+namespace GUI_Layer
 {
     public partial class SeatCar : Form
     {
-        public SeatCar(int carNumber, int distance)
+        private DateTime departureDate;
+        public SeatCar(int carNumber,int trainId, int distance, double cost, DateTime time)
         {
             InitializeComponent();
             label2.Text = $"Вагон №{carNumber}";
-            label3.Text = $"Стоимость: {distance * 0.09}";
+            label3.Text = $"Стоимость: {distance * cost}";
+            departureDate = time;
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            button1.Enabled = false;
-            button1.BackColor = Color.LightBlue;
+            var button = (Button)sender;
+            button.Enabled = false;
+            button.BackColor = Color.LightBlue;
+            int number = Convert.ToInt32(button.Text);
+            label1.Text = $"Место №{number}";
+
+            foreach (Control control in this.Controls)
+            {
+                if (control is Button && control != button)
+                {
+                    Button otherButton = (Button)control;
+                    otherButton.Enabled = false;
+                }
+            }
+            buttonAccept.Enabled = true;
+        }
+
+        private void buttonAccept_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("Ghbdtn");
         }
     }
 }

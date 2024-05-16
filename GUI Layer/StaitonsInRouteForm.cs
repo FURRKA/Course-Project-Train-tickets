@@ -2,10 +2,11 @@
 {
     public partial class StaitonsInRouteForm : Form
     {
-        public StaitonsInRouteForm(List<dynamic> data)
+        public StaitonsInRouteForm(string routeName, List<dynamic> data)
         {
             InitializeComponent();
             routeGrid.DataSource = data;
+            Text = routeName;
         }
     }
 }

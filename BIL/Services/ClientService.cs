@@ -1,12 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using DataLayer.Repository;
 
 namespace BIL.Services
 {
-    internal class ClientService
+    public class ClientService
     {
+        private UserDataRepository users;
+
+        public ClientService(string DBpath)
+        {
+            users = new UserDataRepository(DBpath);
+
+            users.Read();
+        }
     }
 }

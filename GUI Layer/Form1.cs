@@ -1,4 +1,5 @@
 using BIL.Services;
+using DataLayer.Entity;
 
 namespace GUI_Layer
 {
@@ -6,20 +7,24 @@ namespace GUI_Layer
     {
         private RouteService routeService;
         private DataService dataService;
+        private UserEnity user;
         private bool isColumnAdded = false;
-        public Form1()
+        public Form1(string path, UserEnity user)
         {
-            string path = "Data Source=D:\\GSTU\\ßÏÂÓ\\Course Project Train tickets\\DataLayer\\DB_CourseWork.db";
             InitializeComponent();
             routeService = new RouteService(path);
             dataService = new DataService(path);
             dateTimePicker1.MinDate = DateTime.Now;
             dateTimePicker1.MaxDate = DateTime.Now + TimeSpan.FromDays(60);
+            this.user = user;
 
             tabControl1.ItemSize = new Size(tabControl1.Size.Width / tabControl1.TabPages.Count - 1, tabControl1.ItemSize.Height);
 
             routeService.StationsNames().ForEach(name => comboBox1.Items.Add(name));
             routeService.StationsNames().ForEach(name => comboBox2.Items.Add(name));
+
+            label10.Text = $"ÔÈÎ: {user.Name} {user.LastName} {user.SurName}\n" +
+                $"Ïàññïîğò: {user.Passport}\nEmail: {user.Email}";
 
         }
 

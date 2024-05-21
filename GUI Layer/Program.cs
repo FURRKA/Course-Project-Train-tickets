@@ -10,8 +10,9 @@ namespace GUI_Layer
         {
             // To customize application configuration such as set high DPI settings or default font,
             // see https://aka.ms/applicationconfiguration.
+            string path = "Data Source=D:\\GSTU\\ъобс\\Course Project Train tickets\\DataLayer\\DB_CourseWork.db";
             ApplicationConfiguration.Initialize();
-            Application.Run(new Form1());
+            Application.Run(new Authorization(path));
         }
     }
 }

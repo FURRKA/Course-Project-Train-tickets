@@ -84,7 +84,7 @@ namespace DataLayer.Repository
         public void Update(int trainID, int carNumber, string date)
         {
             connection.Open();
-            var command = new SqliteCommand($"UPDATE Seats Set fill='{ListToString(collection[trainID][date][carNumber])}' WHERE id_train = {trainID}", connection);
+            var command = new SqliteCommand($"UPDATE Seats Set fill='{ListToString(collection[trainID][date][carNumber])}' WHERE (id_train = {trainID}) AND (date = '{date}')", connection);
             command.ExecuteNonQuery();
             connection.Close();
 

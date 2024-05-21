@@ -47,19 +47,14 @@
             this.offerGrid = new System.Windows.Forms.DataGridView();
             this.label5 = new System.Windows.Forms.Label();
             this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.label11 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
-            this.button4 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
-            this.textBox2 = new System.Windows.Forms.TextBox();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.passwordLabel = new System.Windows.Forms.Label();
-            this.loginlabel = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
             this.tabPage4 = new System.Windows.Forms.TabPage();
+            this.bagLabel = new System.Windows.Forms.Label();
             this.button3 = new System.Windows.Forms.Button();
             this.paymentBasketGrid = new System.Windows.Forms.DataGridView();
             this.label6 = new System.Windows.Forms.Label();
-            this.bagLabel = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage5.SuspendLayout();
@@ -279,13 +274,8 @@
             // 
             // tabPage3
             // 
+            this.tabPage3.Controls.Add(this.label11);
             this.tabPage3.Controls.Add(this.label10);
-            this.tabPage3.Controls.Add(this.button4);
-            this.tabPage3.Controls.Add(this.button2);
-            this.tabPage3.Controls.Add(this.textBox2);
-            this.tabPage3.Controls.Add(this.textBox1);
-            this.tabPage3.Controls.Add(this.passwordLabel);
-            this.tabPage3.Controls.Add(this.loginlabel);
             this.tabPage3.Controls.Add(this.label9);
             this.tabPage3.Location = new System.Drawing.Point(4, 4);
             this.tabPage3.Name = "tabPage3";
@@ -295,72 +285,25 @@
             this.tabPage3.Text = "Профиль";
             this.tabPage3.UseVisualStyleBackColor = true;
             // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Font = new System.Drawing.Font("Century Gothic", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.label11.Location = new System.Drawing.Point(12, 44);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(143, 22);
+            this.label11.TabIndex = 8;
+            this.label11.Text = "Информация";
+            // 
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(3, 48);
+            this.label10.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.label10.Location = new System.Drawing.Point(12, 77);
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(137, 15);
-            this.label10.TabIndex = 13;
-            this.label10.Text = "Вы не вошли в систему";
-            // 
-            // button4
-            // 
-            this.button4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
-            this.button4.Font = new System.Drawing.Font("Century Gothic", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.button4.ForeColor = System.Drawing.SystemColors.Control;
-            this.button4.Location = new System.Drawing.Point(90, 294);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(193, 48);
-            this.button4.TabIndex = 12;
-            this.button4.Text = "Регистрация";
-            this.button4.UseVisualStyleBackColor = false;
-            // 
-            // button2
-            // 
-            this.button2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
-            this.button2.Font = new System.Drawing.Font("Century Gothic", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.button2.ForeColor = System.Drawing.SystemColors.Control;
-            this.button2.Location = new System.Drawing.Point(90, 240);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(193, 48);
-            this.button2.TabIndex = 11;
-            this.button2.Text = "Войти";
-            this.button2.UseVisualStyleBackColor = false;
-            // 
-            // textBox2
-            // 
-            this.textBox2.Location = new System.Drawing.Point(90, 192);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(193, 23);
-            this.textBox2.TabIndex = 10;
-            // 
-            // textBox1
-            // 
-            this.textBox1.Location = new System.Drawing.Point(90, 123);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(193, 23);
-            this.textBox1.TabIndex = 9;
-            // 
-            // passwordLabel
-            // 
-            this.passwordLabel.AutoSize = true;
-            this.passwordLabel.Font = new System.Drawing.Font("Century Gothic", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.passwordLabel.Location = new System.Drawing.Point(138, 159);
-            this.passwordLabel.Name = "passwordLabel";
-            this.passwordLabel.Size = new System.Drawing.Size(101, 30);
-            this.passwordLabel.TabIndex = 8;
-            this.passwordLabel.Text = "Пароль";
-            // 
-            // loginlabel
-            // 
-            this.loginlabel.AutoSize = true;
-            this.loginlabel.Font = new System.Drawing.Font("Century Gothic", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.loginlabel.Location = new System.Drawing.Point(138, 90);
-            this.loginlabel.Name = "loginlabel";
-            this.loginlabel.Size = new System.Drawing.Size(84, 30);
-            this.loginlabel.TabIndex = 7;
-            this.loginlabel.Text = "Логин";
+            this.label10.Size = new System.Drawing.Size(50, 21);
+            this.label10.TabIndex = 7;
+            this.label10.Text = "data";
             // 
             // label9
             // 
@@ -385,6 +328,16 @@
             this.tabPage4.TabIndex = 6;
             this.tabPage4.Text = "Корзина";
             this.tabPage4.UseVisualStyleBackColor = true;
+            // 
+            // bagLabel
+            // 
+            this.bagLabel.AutoSize = true;
+            this.bagLabel.Font = new System.Drawing.Font("Century Gothic", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.bagLabel.Location = new System.Drawing.Point(20, 197);
+            this.bagLabel.Name = "bagLabel";
+            this.bagLabel.Size = new System.Drawing.Size(338, 30);
+            this.bagLabel.TabIndex = 10;
+            this.bagLabel.Text = "Нету действующих заказов";
             // 
             // button3
             // 
@@ -419,16 +372,6 @@
             this.label6.Size = new System.Drawing.Size(114, 30);
             this.label6.TabIndex = 5;
             this.label6.Text = "Корзина";
-            // 
-            // bagLabel
-            // 
-            this.bagLabel.AutoSize = true;
-            this.bagLabel.Font = new System.Drawing.Font("Century Gothic", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.bagLabel.Location = new System.Drawing.Point(20, 197);
-            this.bagLabel.Name = "bagLabel";
-            this.bagLabel.Size = new System.Drawing.Size(338, 30);
-            this.bagLabel.TabIndex = 10;
-            this.bagLabel.Text = "Нету действующих заказов";
             // 
             // Form1
             // 
@@ -483,14 +426,9 @@
         private Label label7;
         private Label label8;
         private Label ordersLabel;
-        private Label label10;
-        private Button button4;
-        private Button button2;
-        private TextBox textBox2;
-        private TextBox textBox1;
-        private Label passwordLabel;
-        private Label loginlabel;
-        private Label label9;
         private Label bagLabel;
+        private Label label10;
+        private Label label9;
+        private Label label11;
     }
 }

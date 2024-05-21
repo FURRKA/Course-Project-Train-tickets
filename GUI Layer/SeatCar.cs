@@ -19,20 +19,14 @@ namespace GUI_Layer
 
             Text = $"Вагон №{carNumber}";
             label2.Text = $"Вагон №{carNumber}";
-            label3.Text = $"Стоимость: {distance * cost}";
+            label3.Text = $"Стоимость: {distance * cost:F2}";
             seats = service.SeatsList(trainId, carNumber, date.Date.ToString());
 
-            foreach (Control control in Controls)
+            foreach (var button in Controls.OfType<Button>().Where(b => b != buttonAccept &&
+            seats.Contains(Convert.ToInt32(b.Text))))
             {
-                if (control is Button && control != buttonAccept)
-                {
-                    var button = (Button)control;
-                    if (seats.Contains(Convert.ToInt32(button.Text)))
-                    {
-                        button.BackColor = Color.Gray;
-                        button.Enabled = false;
-                    }
-                }
+                button.BackColor = Color.Gray;
+                button.Enabled = false;
             }
         }
 
@@ -41,25 +35,23 @@ namespace GUI_Layer
             var button = (Button)sender;
             button.Enabled = false;
             button.BackColor = Color.LightBlue;
+
             int number = Convert.ToInt32(button.Text);
             label1.Text = $"Место №{number}";
+
             seats.Add(Convert.ToInt32(button.Text));
             service.SeatsDataUpdate(trainId, carNumber, date.Date.ToString()); //Перенести в успешную регистрацию
 
-            foreach (Control control in this.Controls)
+            foreach (var buttons in Controls.OfType<Button>().Where(b => b != buttonAccept))
             {
-                if (control is Button && control != buttonAccept)
-                {
-                    Button otherButton = (Button)control;
-                    otherButton.Enabled = false;
-                }
+                buttons.Enabled = false;
             }
             buttonAccept.Enabled = true;
         }
 
         private void buttonAccept_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("Ghbdtn");
+
         }
     }
 }

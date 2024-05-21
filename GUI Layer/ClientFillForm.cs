@@ -1,20 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
+﻿using DataLayer.Entity;
 
 namespace GUI_Layer
 {
     public partial class ClientFillForm : Form
     {
-        public ClientFillForm()
+        public ClientFillForm(UserEnity user)
         {
             InitializeComponent();
+        }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+            var box = (TextBox)sender;
+            label5.Text = textBox1.Text + " " + textBox2.Text + " " + textBox3.Text;
         }
     }
 }

@@ -18,6 +18,9 @@ namespace BIL.Services
         public int RouteId { get; set; }
         public int TrainId { get; set; }
         public double Cost { get; set; }
+
+        public string StartStation => startStation.Name;
+        public string FinalStation => finalStation.Name;
         public RouteService(string DBpath)
         {
             stations = new StationsRepository(DBpath);
@@ -90,6 +93,11 @@ namespace BIL.Services
         public void GetTrainId()
         {
             TrainId = trains.Data.FirstOrDefault(item => item.Value.Contains(RouteId)).Key;
+        }
+
+        public string FindStationTime(int routeID, string stationName)
+        {
+            return directory.Data.Find(item => item.RouteId == routeID && item.StationId == stations.Data.Find(s => s.Name == stationName).Id).Time;
         }
     }
 }

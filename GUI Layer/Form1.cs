@@ -55,7 +55,7 @@ namespace GUI_Layer
                             routeService.RouteId = resultRoutes[e.RowIndex].Id;
                             routeService.GetTrainId();
                             int dist = routeService.GetRouteDistance();
-                            var car = new SeatCar(routeService.TrainId, 2, dist, routeService.Cost, dateTimePicker1.Value, dataService);
+                            var car = new SeatCar(routeService.TrainId, 2, dist, routeService.Cost, dateTimePicker1.Value, dataService, routeService, user);
                             car.Show();
                         }
                     };

@@ -1,33 +1,45 @@
-﻿using DataLayer.Repository;
+﻿using DataLayer.Entity;
+using DataLayer.Repository;
 
 namespace BIL.Services
 {
     public class DataService
     {
-        private SeatsRepository trainComposition;
+        private SeatsRepository seats;
+        private TrainCompositionRepository trainComposition;
+        private OrdersRepository orders;
         public DataService(string DBPath)
         {
-            trainComposition = new SeatsRepository(DBPath);
+            seats = new SeatsRepository(DBPath);
+            trainComposition = new TrainCompositionRepository(DBPath);
+            orders = new OrdersRepository(DBPath);
+
+            orders.Read();
             trainComposition.Read();
-            trainComposition.DeleteOldTickets();
+            seats.Read();
+
+            seats.DeleteOldTickets();
         }
 
         public List<int> SeatsList(int trainId, int carNumber, string date)
         {
-            if (trainComposition.Find(trainId, carNumber, date))
+            if (seats.Find(trainId, carNumber, date))
             {
-                return trainComposition.Data[trainId][date][carNumber];
+                return seats.Data[trainId][date][carNumber];
             }
             else
             {
-                trainComposition.Create(trainId, carNumber, date, "0");
-                return trainComposition.Data[trainId][date][carNumber];
+                seats.Create(trainId, carNumber, date, "0");
+                return seats.Data[trainId][date][carNumber];
             }
         }
-        public void SeatsDataUpdate(int trainId, int carNumber, string date) => trainComposition.Update(trainId, carNumber, date);
-        public List<dynamic> GetCarsInfo(int trainId)
+        public void SeatsDataUpdate(int trainId, int carNumber, string date) => seats.Update(trainId, carNumber, date);
+        public List<CarEntity> GetCarsInfo(int trainId) => trainComposition.Data[trainId];
+
+        public void CreateOrder(UserEnity user, int trainID, string carType, int carNumber, int seatNumber, double totalCost, 
+            DateTime date, string startStation, string finalStation, string departTime, string arriveTime)
         {
-            return new List<dynamic>();
+            orders.Create(new TicketEntity(orders.MaxId(), user.Id, trainID, carType, carNumber, seatNumber, totalCost, date, startStation, finalStation, departTime, arriveTime, false));
         }
     }
 }

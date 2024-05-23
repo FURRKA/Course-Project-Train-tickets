@@ -119,5 +119,13 @@ namespace DataLayer.Repository
             command.ExecuteNonQuery();
             connection.Close();
         }
+
+        public int MaxId()
+        {
+            if (Count > 0)
+                return payTickets.ToList().Max(item => item.Value.Max(x => x.Id));
+            else
+                return 1;
+        }
     }
 }

@@ -10,7 +10,7 @@ namespace GUI_Layer
         private List<int> seats;
         private int trainId;
         private int carNumber;
-        private int seatNumber;
+        public int SeatNumber { get; set; }
         private double totalCost;
         private DateTime date;
         private UserEnity user;
@@ -44,11 +44,10 @@ namespace GUI_Layer
             button.Enabled = false;
             button.BackColor = Color.LightBlue;
 
-            seatNumber = Convert.ToInt32(button.Text);
-            label1.Text = $"Место №{seatNumber}";
+            SeatNumber = Convert.ToInt32(button.Text);
+            label1.Text = $"Место №{SeatNumber}";
 
-            seats.Add(seatNumber);
-            //service.SeatsDataUpdate(trainId, carNumber, date.Date.ToString()); //Перенести в успешную регистрацию
+            seats.Add(SeatNumber);
 
             foreach (var buttons in Controls.OfType<Button>().Where(b => b != buttonAccept))
             {
@@ -59,11 +58,21 @@ namespace GUI_Layer
 
         private void buttonAccept_Click(object sender, EventArgs e)
         {
-            var clientFillForm = new ClientFillForm(user, trainId, carNumber, "Сидячий", totalCost, seatNumber, date,
+            var clientFillForm = new ClientFillForm(user, trainId, carNumber, "Сидячий", totalCost, SeatNumber, date,
                 route.StartStation, route.FinalStation,
                 route.FindStationTime(route.RouteId, route.StartStation),
                 route.FindStationTime(route.RouteId, route.FinalStation));
-            clientFillForm.ShowDialog();
+            if (clientFillForm.ShowDialog() == DialogResult.OK)
+            {
+                service.SeatsDataUpdate(trainId, carNumber, date.Date.ToString());
+                DialogResult = DialogResult.OK;
+                Close();
+            }
+            else
+            {
+                seats.RemoveAt(seats.Count - 1);
+                Close();
+            }
         }
     }
 }

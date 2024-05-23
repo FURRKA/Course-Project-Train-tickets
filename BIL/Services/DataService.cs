@@ -4,10 +4,10 @@ namespace BIL.Services
 {
     public class DataService
     {
-        private TrainCompositionRepostitory trainComposition;
+        private SeatsRepository trainComposition;
         public DataService(string DBPath)
         {
-            trainComposition = new TrainCompositionRepostitory(DBPath);
+            trainComposition = new SeatsRepository(DBPath);
             trainComposition.Read();
             trainComposition.DeleteOldTickets();
         }
@@ -25,5 +25,9 @@ namespace BIL.Services
             }
         }
         public void SeatsDataUpdate(int trainId, int carNumber, string date) => trainComposition.Update(trainId, carNumber, date);
+        public List<dynamic> GetCarsInfo(int trainId)
+        {
+            return new List<dynamic>();
+        }
     }
 }

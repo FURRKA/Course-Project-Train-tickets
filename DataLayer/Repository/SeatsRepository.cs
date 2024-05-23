@@ -3,7 +3,7 @@ using System.Text;
 
 namespace DataLayer.Repository
 {
-    public class TrainCompositionRepostitory
+    public class SeatsRepository
     {
         //Dict<trainId, Dict<date, Dict<carNumber, List<seats> > > >
         private Dictionary<int, Dictionary<string, Dictionary<int, List<int>>>> collection;
@@ -12,7 +12,7 @@ namespace DataLayer.Repository
         public Dictionary<int, Dictionary<string, Dictionary<int, List<int>>>> Data => collection;
         public int Count => collection.Count;
 
-        public TrainCompositionRepostitory(string DBpath)
+        public SeatsRepository(string DBpath)
         {
             connection = new SqliteConnection(DBpath);
             collection = new Dictionary<int, Dictionary<string, Dictionary<int, List<int>>>>();

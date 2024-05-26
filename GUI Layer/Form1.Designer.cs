@@ -356,6 +356,7 @@
             this.button3.TabIndex = 7;
             this.button3.Text = "Оплатить";
             this.button3.UseVisualStyleBackColor = false;
+            this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
             // paymentBasketGrid
             // 

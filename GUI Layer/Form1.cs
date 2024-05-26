@@ -7,6 +7,7 @@ namespace GUI_Layer
     {
         private RouteService routeService;
         private DataService dataService;
+        private PaymentService paymentService;
         private UserEnity user;
         private bool isColumnAdded = false;
         private bool eventAdded = false;
@@ -15,6 +16,8 @@ namespace GUI_Layer
             InitializeComponent();
             routeService = new RouteService(path);
             dataService = new DataService(path);
+            paymentService = new PaymentService(path);
+
             dateTimePicker1.MinDate = DateTime.Now;
             dateTimePicker1.MaxDate = DateTime.Now + TimeSpan.FromDays(60);
             this.user = user;
@@ -199,6 +202,39 @@ namespace GUI_Layer
         {
             var comboBoxes = tabControl1.TabPages[0].Controls.OfType<ComboBox>();
             button1.Enabled = comboBoxes.All(cb => cb.SelectedItem != null && !string.IsNullOrWhiteSpace(cb.Text));
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            var orders = dataService.GetTickets(user.Id).Where(t => !t.Paid).ToList();
+            var id = orders.Select(or => or.Id).ToList();
+            double totalCost = orders.Sum(t => t.TotalCost);
+            var payForm = new PayForm(paymentService, totalCost);
+            if (payForm.ShowDialog() == DialogResult.OK)
+            {
+                dataService.ChangePaidStatus(user.Id, id);
+                paymentBasketGrid.DataSource = null;
+                paymentBasketGrid.Visible = false;
+                bagLabel.Visible = true;
+
+                ordersLabel.Visible = false;
+                orderGrid.Visible = true;
+                orderGrid.DataSource = dataService.GetTickets(user.Id).Where(ticket => !ticket.Paid)
+                    .Select(item => new
+                    {
+                        Заказ = item.Id,
+                        Поезд = item.TrainId,
+                        Тип = item.CarType,
+                        НомерВагона = item.CarNumber,
+                        Место = item.SeatNumber,
+                        Стоимость = item.TotalCost,
+                        Дата = item.Date,
+                        НачальнаяСтанция = item.StartStation,
+                        Отправление = item.DepartTime,
+                        КонечнаяСтанция = item.FinalStation,
+                        Прибытие = item.ArriveTime
+                    }).ToList();
+            }
         }
     }
 }

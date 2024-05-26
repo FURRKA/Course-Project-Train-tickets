@@ -63,6 +63,16 @@ namespace GUI_Layer.Properties {
         /// <summary>
         ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap furpay {
+            get {
+                object obj = ResourceManager.GetObject("furpay", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap sitcar {
             get {
                 object obj = ResourceManager.GetObject("sitcar", resourceCulture);

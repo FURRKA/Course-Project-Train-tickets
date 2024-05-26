@@ -69,5 +69,20 @@ namespace BIL.Services
         {
             return orders.DeleteNonPaidTickets(seats);
         }
+
+        public void DeleteOldTickets()
+        {
+
+        }
+
+        public void ChangePaidStatus(int userId, List<int> ids)
+        {
+            orders.Data[userId]
+                .Where(t => ids.Contains(t.Id))
+                .ToList()
+                .ForEach(t => t.Paid = true);
+
+            ids.ForEach(id => orders.Update(id));
+        }
     }
 }

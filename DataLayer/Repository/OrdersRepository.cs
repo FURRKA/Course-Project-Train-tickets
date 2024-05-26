@@ -41,7 +41,8 @@ namespace DataLayer.Repository
                 $"'{item.FinalStation}'," +
                 $"'{item.DepartTime}'," +
                 $"'{item.ArriveTime}'," +
-                $"{item.Paid})", connection);
+                $"{item.Paid}," +
+                $"'{item.CreateTime}')", connection);
             command.Parameters.AddWithValue("$cost", item.TotalCost);
             command.ExecuteNonQuery();
             connection.Close();
@@ -80,16 +81,16 @@ namespace DataLayer.Repository
                         string departTime = reader.GetString(10);
                         string arrivalTime = reader.GetString(11);
                         bool paid = reader.GetBoolean(12);
+                        DateTime createTime = DateTime.Parse(reader.GetString(13));
 
                         if (payTickets.ContainsKey(userId))
                         {
-
-                            payTickets[userId].Add(new TicketEntity(id, userId, trainId, carType, carNumber, seatNumber, cost, date, startStation, finalStation, departTime, arrivalTime, paid));
+                            payTickets[userId].Add(new TicketEntity(id, userId, trainId, carType, carNumber, seatNumber, cost, date, startStation, finalStation, departTime, arrivalTime, paid, createTime));
                         }
                         else
                         {
-                            payTickets.Add(id, new List<TicketEntity>());
-                            payTickets[userId].Add(new TicketEntity(id, userId, trainId, carType, carNumber, seatNumber, cost, date, startStation, finalStation, departTime, arrivalTime, paid));
+                            payTickets.Add(userId, new List<TicketEntity>());
+                            payTickets[userId].Add(new TicketEntity(id, userId, trainId, carType, carNumber, seatNumber, cost, date, startStation, finalStation, departTime, arrivalTime, paid, createTime));
                         }
                     }
                 }
@@ -123,9 +124,33 @@ namespace DataLayer.Repository
         public int MaxId()
         {
             if (Count > 0)
-                return payTickets.ToList().Max(item => item.Value.Max(x => x.Id));
+                return payTickets.ToList()
+                    .Where(item => item.Value.Any())
+                    .Max(item => item.Value.Max(x => x.Id));
             else
-                return 1;
+                return 0;
+        }
+
+        public bool DeleteNonPaidTickets(SeatsRepository seats)
+        {
+            const int delay = 20;
+
+            var tickets2delete = payTickets
+                .Where(item => item.Value.Any(t => DateTime.Now.Minute - t.CreateTime.Minute > delay && !t.Paid))
+                .ToList();
+
+            foreach (var (userId, userTickets) in tickets2delete)
+            {
+                var ticketsToRemove = userTickets.ToList();
+                foreach (var ticket in ticketsToRemove)
+                {
+                    seats.FreeSeat(ticket.TrainId, ticket.CarNumber, ticket.Date.ToString(), ticket.SeatNumber);
+                    Delete(ticket.Id);
+                    payTickets[userId].Remove(ticket);
+                }
+            }
+
+            return tickets2delete.Count > 0;
         }
     }
 }

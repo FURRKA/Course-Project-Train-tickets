@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.button1 = new System.Windows.Forms.Button();
@@ -44,7 +45,7 @@
             this.label7 = new System.Windows.Forms.Label();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.ordersLabel = new System.Windows.Forms.Label();
-            this.offerGrid = new System.Windows.Forms.DataGridView();
+            this.orderGrid = new System.Windows.Forms.DataGridView();
             this.label5 = new System.Windows.Forms.Label();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.label11 = new System.Windows.Forms.Label();
@@ -55,12 +56,13 @@
             this.button3 = new System.Windows.Forms.Button();
             this.paymentBasketGrid = new System.Windows.Forms.DataGridView();
             this.label6 = new System.Windows.Forms.Label();
+            this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage5.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.routeGrid)).BeginInit();
             this.tabPage2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.offerGrid)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.orderGrid)).BeginInit();
             this.tabPage3.SuspendLayout();
             this.tabPage4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.paymentBasketGrid)).BeginInit();
@@ -105,6 +107,7 @@
             // button1
             // 
             this.button1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
+            this.button1.Enabled = false;
             this.button1.Font = new System.Drawing.Font("Century Gothic", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.button1.ForeColor = System.Drawing.SystemColors.Control;
             this.button1.Location = new System.Drawing.Point(12, 255);
@@ -162,6 +165,7 @@
             this.comboBox2.Name = "comboBox2";
             this.comboBox2.Size = new System.Drawing.Size(355, 23);
             this.comboBox2.TabIndex = 3;
+            this.comboBox2.SelectedIndexChanged += new System.EventHandler(this.UpdateComboBoxes);
             // 
             // comboBox1
             // 
@@ -170,6 +174,7 @@
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.Size = new System.Drawing.Size(355, 23);
             this.comboBox1.TabIndex = 2;
+            this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.UpdateComboBoxes);
             // 
             // label1
             // 
@@ -231,7 +236,7 @@
             // tabPage2
             // 
             this.tabPage2.Controls.Add(this.ordersLabel);
-            this.tabPage2.Controls.Add(this.offerGrid);
+            this.tabPage2.Controls.Add(this.orderGrid);
             this.tabPage2.Controls.Add(this.label5);
             this.tabPage2.Location = new System.Drawing.Point(4, 4);
             this.tabPage2.Name = "tabPage2";
@@ -251,16 +256,16 @@
             this.ordersLabel.TabIndex = 9;
             this.ordersLabel.Text = "Нету действующих билетов";
             // 
-            // offerGrid
+            // orderGrid
             // 
-            this.offerGrid.BackgroundColor = System.Drawing.Color.White;
-            this.offerGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.offerGrid.Location = new System.Drawing.Point(0, 39);
-            this.offerGrid.Name = "offerGrid";
-            this.offerGrid.RowTemplate.Height = 25;
-            this.offerGrid.Size = new System.Drawing.Size(382, 386);
-            this.offerGrid.TabIndex = 3;
-            this.offerGrid.Visible = false;
+            this.orderGrid.BackgroundColor = System.Drawing.Color.White;
+            this.orderGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.orderGrid.Location = new System.Drawing.Point(0, 39);
+            this.orderGrid.Name = "orderGrid";
+            this.orderGrid.RowTemplate.Height = 25;
+            this.orderGrid.Size = new System.Drawing.Size(382, 386);
+            this.orderGrid.TabIndex = 3;
+            this.orderGrid.Visible = false;
             // 
             // label5
             // 
@@ -373,14 +378,20 @@
             this.label6.TabIndex = 5;
             this.label6.Text = "Корзина";
             // 
+            // timer1
+            // 
+            this.timer1.Enabled = true;
+            this.timer1.Interval = 60000;
+            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(379, 450);
+            this.ClientSize = new System.Drawing.Size(381, 450);
             this.Controls.Add(this.tabControl1);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Name = "Form1";
             this.Text = "Поиск билетов";
             this.tabControl1.ResumeLayout(false);
@@ -391,7 +402,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.routeGrid)).EndInit();
             this.tabPage2.ResumeLayout(false);
             this.tabPage2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.offerGrid)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.orderGrid)).EndInit();
             this.tabPage3.ResumeLayout(false);
             this.tabPage3.PerformLayout();
             this.tabPage4.ResumeLayout(false);
@@ -415,7 +426,7 @@
         private Label label2;
         private ComboBox comboBox2;
         private Button button1;
-        private DataGridView offerGrid;
+        private DataGridView orderGrid;
         private Label label5;
         private TabPage tabPage4;
         private Button button3;
@@ -430,5 +441,6 @@
         private Label label10;
         private Label label9;
         private Label label11;
+        private System.Windows.Forms.Timer timer1;
     }
 }

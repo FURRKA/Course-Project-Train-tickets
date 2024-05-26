@@ -1,4 +1,5 @@
-﻿using DataLayer.Repository;
+﻿using DataLayer.Entity;
+using DataLayer.Repository;
 
 namespace BIL.Services
 {
@@ -12,5 +13,7 @@ namespace BIL.Services
 
             users.Read();
         }
+
+        public UserEnity GetUser(int id) => users.Data.Find(user => user.Id == id);
     }
 }

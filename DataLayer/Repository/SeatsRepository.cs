@@ -84,16 +84,16 @@ namespace DataLayer.Repository
         public void Update(int trainID, int carNumber, string date)
         {
             connection.Open();
-            var command = new SqliteCommand($"UPDATE Seats Set fill='{ListToString(collection[trainID][date][carNumber])}' WHERE (id_train = {trainID}) AND (date = '{date}')", connection);
+            var command = new SqliteCommand($"UPDATE Seats Set fill='{ListToString(collection[trainID][date][carNumber])}' WHERE (id_train = {trainID}) AND (date = '{date}') AND (carNumber = {carNumber})", connection);
             command.ExecuteNonQuery();
             connection.Close();
 
         }
 
-        public void Delete(int trainID, string Date)
+        public void Delete(int trainID,int carNumber, string Date)
         {
             connection.Open();
-            var command = new SqliteCommand($"DELETE FROM Seats WHERE (id_train = {trainID}) AND (date = '{Date}')", connection);
+            var command = new SqliteCommand($"DELETE FROM Seats WHERE (id_train = {trainID}) AND (date = '{Date}') AND (carNumber = {carNumber})", connection);
             command.ExecuteNonQuery();
             connection.Close();
         }
@@ -143,6 +143,12 @@ namespace DataLayer.Repository
                 return false;
         
             return true;
+        }
+
+        public void FreeSeat(int trainID, int carNumber, string Date, int seatnumber)
+        {
+            collection[trainID][Date][carNumber].Remove(seatnumber);
+            Update(trainID, carNumber,Date);
         }
     }
 }

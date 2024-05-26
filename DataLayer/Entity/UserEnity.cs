@@ -26,5 +26,7 @@ namespace DataLayer.Entity
             Passport = passport;
             Role = role;
         }
+
+        public string FullName => Name + " " + LastName + " " + SurName;
     }
 }

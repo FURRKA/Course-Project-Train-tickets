@@ -1,6 +1,5 @@
 using BIL.Services;
 using DataLayer.Entity;
-using System.Reflection;
 
 namespace GUI_Layer
 {
@@ -24,10 +23,55 @@ namespace GUI_Layer
 
             routeService.StationsNames().ForEach(name => comboBox1.Items.Add(name));
             routeService.StationsNames().ForEach(name => comboBox2.Items.Add(name));
+            dataService.DeleteNonPaidTickets();
 
             label10.Text = $"ФИО: {user.Name} {user.LastName} {user.SurName}\n" +
-                $"Пасспорт: {user.Passport}\nEmail: {user.Email}";
+                $"Паспорт: {user.Passport}\nEmail: {user.Email}";
 
+            if (dataService.HasOrders)
+            {
+                bool unPaidTickets = dataService.UserHasUnpaidOrders(user.Id);
+                bool paidTickets = dataService.UserHasOrders(user.Id);
+
+                paymentBasketGrid.Visible = unPaidTickets;
+                orderGrid.Visible = paidTickets;
+
+                ordersLabel.Visible = !paidTickets;
+                bagLabel.Visible = !unPaidTickets;
+                button3.Enabled = unPaidTickets;
+
+                paymentBasketGrid.DataSource = dataService.GetTickets(user.Id).Where(ticket => !ticket.Paid)
+                    .Select(item => new
+                    {
+                        Заказ = item.Id,
+                        Поезд = item.TrainId,
+                        Тип = item.CarType,
+                        НомерВагона = item.CarNumber,
+                        Место = item.SeatNumber,
+                        Стоимость = item.TotalCost,
+                        Дата = item.Date,
+                        НачальнаяСтанция = item.StartStation,
+                        Отправление = item.DepartTime,
+                        КонечнаяСтанция = item.FinalStation,
+                        Прибытие = item.ArriveTime
+                    }).ToList();
+
+                orderGrid.DataSource = dataService.GetTickets(user.Id).Where(ticket => ticket.Paid)
+                    .Select(item => new
+                    {
+                        Заказ = item.Id,
+                        Поезд = item.TrainId,
+                        Тип = item.CarType,
+                        НомерВагона = item.CarNumber,
+                        Место = item.SeatNumber,
+                        Стоимость = item.TotalCost,
+                        Дата = item.Date,
+                        НачальнаяСтанция = item.StartStation,
+                        Отправление = item.DepartTime,
+                        КонечнаяСтанция = item.FinalStation,
+                        Прибытие = item.ArriveTime
+                    }).ToList(); ;
+            }
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -65,8 +109,28 @@ namespace GUI_Layer
                                 if (car.ShowDialog() == DialogResult.OK)
                                 {
                                     dataService.CreateOrder(user, routeService.TrainId, routeGrid[1, e.RowIndex].Value.ToString(), (int)routeGrid[0, e.RowIndex].Value, car.SeatNumber, dist * routeService.Cost,
-                                        dateTimePicker1.Value, routeService.StartStation, routeService.FinalStation, routeService.FindStationTime(routeService.RouteId, routeService.StartStation),
+                                        dateTimePicker1.Value.Date, routeService.StartStation, routeService.FinalStation, routeService.FindStationTime(routeService.RouteId, routeService.StartStation),
                                         routeService.FindStationTime(routeService.RouteId, routeService.FinalStation));
+
+                                    paymentBasketGrid.Visible = true;
+                                    bagLabel.Visible = false;
+                                    button3.Enabled = true;
+
+                                    paymentBasketGrid.DataSource = dataService.GetTickets(user.Id).Where(ticket => !ticket.Paid)
+                                    .Select(item => new
+                                    {
+                                        Заказ = item.Id,
+                                        Поезд = item.TrainId,
+                                        Тип = item.CarType,
+                                        НомерВагона = item.CarNumber,
+                                        Место = item.SeatNumber,
+                                        Стоимость = item.TotalCost,
+                                        Дата = item.Date,
+                                        НачальнаяСтанция = item.StartStation,
+                                        Отправление = item.DepartTime,
+                                        КонечнаяСтанция = item.FinalStation,
+                                        Прибытие = item.ArriveTime
+                                    }).ToList();
                                 }
                             }
                             if (routeGrid.Columns[e.ColumnIndex].HeaderText == activeButtonsColumn.HeaderText)
@@ -78,7 +142,7 @@ namespace GUI_Layer
                                 routeGrid.DataSource = dataService.GetCarsInfo(routeService.TrainId)
                                     .Select(item => new { Номер = item.Number, Тип = item.Type }).ToList();
                                 routeGrid.Columns.Add(selectButtonsColumn);
-                                label7.Text = "Выбор места";
+                                label7.Text = "Выбор вагона";
                                 isColumnAdded = false;
                             }
                         };
@@ -93,12 +157,48 @@ namespace GUI_Layer
             }
             else
             {
-                routeGrid.Visible=false;
+                routeGrid.Visible = false;
                 label7.Text = "Маршруты";
                 label8.Visible = true;
                 routeGrid.DataSource = null;
                 tabControl1.SelectedIndex = 1;
             }
+        }
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            if (dataService.DeleteNonPaidTickets())
+            {
+                paymentBasketGrid.DataSource = null;
+                paymentBasketGrid.DataSource = dataService.GetTickets(user.Id).Where(ticket => !ticket.Paid)
+                    .Select(item => new
+                    {
+                        Заказ = item.Id,
+                        Поезд = item.TrainId,
+                        Тип = item.CarType,
+                        НомерВагона = item.CarNumber,
+                        Место = item.SeatNumber,
+                        Стоимость = item.TotalCost,
+                        Дата = item.Date,
+                        НачальнаяСтанция = item.StartStation,
+                        Отправление = item.DepartTime,
+                        КонечнаяСтанция = item.FinalStation,
+                        Прибытие = item.ArriveTime
+                    }).ToList();
+
+                if (!dataService.UserHasUnpaidOrders(user.Id))
+                {
+                    paymentBasketGrid.Visible = false;
+                    bagLabel.Visible = true;
+                    button3.Enabled = false;
+                }
+            }
+        }
+
+        private void UpdateComboBoxes(Object sender, EventArgs e)
+        {
+            var comboBoxes = tabControl1.TabPages[0].Controls.OfType<ComboBox>();
+            button1.Enabled = comboBoxes.All(cb => cb.SelectedItem != null && !string.IsNullOrWhiteSpace(cb.Text));
         }
     }
 }

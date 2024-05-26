@@ -48,6 +48,7 @@
             this.orderGrid = new System.Windows.Forms.DataGridView();
             this.label5 = new System.Windows.Forms.Label();
             this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.button2 = new System.Windows.Forms.Button();
             this.label11 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
@@ -279,6 +280,7 @@
             // 
             // tabPage3
             // 
+            this.tabPage3.Controls.Add(this.button2);
             this.tabPage3.Controls.Add(this.label11);
             this.tabPage3.Controls.Add(this.label10);
             this.tabPage3.Controls.Add(this.label9);
@@ -289,6 +291,19 @@
             this.tabPage3.TabIndex = 5;
             this.tabPage3.Text = "Профиль";
             this.tabPage3.UseVisualStyleBackColor = true;
+            // 
+            // button2
+            // 
+            this.button2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.button2.Enabled = false;
+            this.button2.Font = new System.Drawing.Font("Century Gothic", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.button2.ForeColor = System.Drawing.SystemColors.Control;
+            this.button2.Location = new System.Drawing.Point(12, 371);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(355, 37);
+            this.button2.TabIndex = 9;
+            this.button2.Text = "Удалить аккаунт";
+            this.button2.UseVisualStyleBackColor = false;
             // 
             // label11
             // 
@@ -443,5 +458,6 @@
         private Label label9;
         private Label label11;
         private System.Windows.Forms.Timer timer1;
+        private Button button2;
     }
 }

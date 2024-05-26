@@ -19,6 +19,7 @@ namespace BIL.Services
             seats.Read();
 
             seats.DeleteOldTickets();
+            DeleteOldTickets();
         }
 
         public List<int> SeatsList(int trainId, int carNumber, string date)
@@ -70,19 +71,28 @@ namespace BIL.Services
             return orders.DeleteNonPaidTickets(seats);
         }
 
-        public void DeleteOldTickets()
-        {
+        public void DeleteOldTickets() => orders.DeleteOldTickets();
 
-        }
-
-        public void ChangePaidStatus(int userId, List<int> ids)
+        public void ChangePaidStatus(int userId, List<int> ids, Int64 cardNumer, int cvc)
         {
             orders.Data[userId]
                 .Where(t => ids.Contains(t.Id))
                 .ToList()
-                .ForEach(t => t.Paid = true);
+                .ForEach(t => { 
+                    t.Paid = true;
+                    t.CardNumber = cardNumer;
+                    t.CVC = cvc;
+                });
 
             ids.ForEach(id => orders.Update(id));
+        }
+
+        public void CancelTicket(int userId, int ticketId, PaymentService service)
+        {
+            var order = orders.Data[userId].Find(t => t.Id == ticketId);
+            seats.FreeSeat(order.TrainId, order.CarNumber, order.Date.ToString(), order.SeatNumber);
+            service.Replenish(order.CardNumber, order.CVC, order.TotalCost);
+            orders.Delete(ticketId);
         }
     }
 }

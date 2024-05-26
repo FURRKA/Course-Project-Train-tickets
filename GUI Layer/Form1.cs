@@ -1,5 +1,6 @@
 using BIL.Services;
 using DataLayer.Entity;
+using System.Diagnostics;
 
 namespace GUI_Layer
 {
@@ -10,6 +11,7 @@ namespace GUI_Layer
         private PaymentService paymentService;
         private UserEnity user;
         private bool isColumnAdded = false;
+        private bool cancelColumndAdded = false;
         private bool eventAdded = false;
         public Form1(string path, UserEnity user)
         {
@@ -30,6 +32,8 @@ namespace GUI_Layer
 
             label10.Text = $"ФИО: {user.Name} {user.LastName} {user.SurName}\n" +
                 $"Паспорт: {user.Passport}\nEmail: {user.Email}";
+
+            var cancelButton = new DataGridViewButtonColumn { HeaderText = "Отмена", Text = "Отменить", UseColumnTextForButtonValue = true };
 
             if (dataService.HasOrders)
             {
@@ -73,8 +77,41 @@ namespace GUI_Layer
                         Отправление = item.DepartTime,
                         КонечнаяСтанция = item.FinalStation,
                         Прибытие = item.ArriveTime
-                    }).ToList(); ;
+                    }).ToList();
+
+
+                if (!cancelColumndAdded && paidTickets)
+                {
+                    cancelColumndAdded = true;
+                    orderGrid.Columns.Add(cancelButton);
+                }
+
             }
+
+            orderGrid.CellContentClick += (sender, e) =>
+            {
+                if (orderGrid.Columns[e.ColumnIndex].HeaderText == cancelButton.HeaderText)
+                {
+                    dataService.CancelTicket(user.Id, (int)orderGrid[1, e.RowIndex].Value, paymentService);
+                    orderGrid.DataSource = orderGrid.DataSource = dataService.GetTickets(user.Id).Where(ticket => ticket.Paid)
+                    .Select(item => new
+                    {
+                        Заказ = item.Id,
+                        Поезд = item.TrainId,
+                        Тип = item.CarType,
+                        НомерВагона = item.CarNumber,
+                        Место = item.SeatNumber,
+                        Стоимость = item.TotalCost,
+                        Дата = item.Date,
+                        НачальнаяСтанция = item.StartStation,
+                        Отправление = item.DepartTime,
+                        КонечнаяСтанция = item.FinalStation,
+                        Прибытие = item.ArriveTime
+                    }).ToList();
+                    orderGrid.Visible = dataService.UserHasOrders(user.Id);
+                    ordersLabel.Visible = !dataService.UserHasOrders(user.Id);
+                }
+            };
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -114,6 +151,8 @@ namespace GUI_Layer
                                     dataService.CreateOrder(user, routeService.TrainId, routeGrid[1, e.RowIndex].Value.ToString(), (int)routeGrid[0, e.RowIndex].Value, car.SeatNumber, dist * routeService.Cost,
                                         dateTimePicker1.Value.Date, routeService.StartStation, routeService.FinalStation, routeService.FindStationTime(routeService.RouteId, routeService.StartStation),
                                         routeService.FindStationTime(routeService.RouteId, routeService.FinalStation));
+
+
 
                                     paymentBasketGrid.Visible = true;
                                     bagLabel.Visible = false;
@@ -209,17 +248,19 @@ namespace GUI_Layer
             var orders = dataService.GetTickets(user.Id).Where(t => !t.Paid).ToList();
             var id = orders.Select(or => or.Id).ToList();
             double totalCost = orders.Sum(t => t.TotalCost);
+
             var payForm = new PayForm(paymentService, totalCost);
             if (payForm.ShowDialog() == DialogResult.OK)
             {
-                dataService.ChangePaidStatus(user.Id, id);
+                dataService.ChangePaidStatus(user.Id, id, payForm.CardNumber, payForm.CVC);
                 paymentBasketGrid.DataSource = null;
                 paymentBasketGrid.Visible = false;
                 bagLabel.Visible = true;
 
                 ordersLabel.Visible = false;
                 orderGrid.Visible = true;
-                orderGrid.DataSource = dataService.GetTickets(user.Id).Where(ticket => !ticket.Paid)
+
+                orderGrid.DataSource = dataService.GetTickets(user.Id).Where(ticket => ticket.Paid)
                     .Select(item => new
                     {
                         Заказ = item.Id,
@@ -234,6 +275,13 @@ namespace GUI_Layer
                         КонечнаяСтанция = item.FinalStation,
                         Прибытие = item.ArriveTime
                     }).ToList();
+
+                var cancelButton = new DataGridViewButtonColumn { HeaderText = "Отмена", Text = "Отменить", UseColumnTextForButtonValue = true };
+                if (!cancelColumndAdded)
+                {
+                    cancelColumndAdded = true;
+                    orderGrid.Columns.Add(cancelButton);
+                }
             }
         }
     }

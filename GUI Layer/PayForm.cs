@@ -7,6 +7,8 @@ namespace GUI_Layer
     {
         private PaymentService service;
         private double totalCost;
+        public Int64 CardNumber { get; set; }
+        public int CVC { get; set; }
         public PayForm(PaymentService service, double totalCost)
         {
             InitializeComponent();
@@ -25,6 +27,8 @@ namespace GUI_Layer
                 {
                     MessageBox.Show("Оплата успешно прошла");
                     DialogResult = DialogResult.OK;
+                    CardNumber = number;
+                    CVC = cvc;
                     Close();
                 }
                 else
@@ -32,7 +36,7 @@ namespace GUI_Layer
 
             }
             else
-                MessageBox.Show("Карты с таким номером нет в системе");            
+                MessageBox.Show("Карты с таким номером нет в системе");      
         }
 
         private void Update(object sender, EventArgs e)

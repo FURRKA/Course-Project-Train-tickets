@@ -19,7 +19,12 @@ namespace DataLayer.Entity
         public string ArriveTime { get; set; }
         public bool Paid { get; set; }
 
-        public TicketEntity(int id, int userId, int trainId, string carType, int carNumber, int seatNumber, double totalCost, DateTime date, string startStation, string finalStation, string departTime, string arriveTime, bool paid, DateTime createTime)
+        public Int64 CardNumber { get; set; }
+        public int CVC { get; set; }
+
+        public TicketEntity(int id, int userId, int trainId, string carType, int carNumber, int seatNumber, double totalCost,
+            DateTime date, string startStation, string finalStation, string departTime, string arriveTime, bool paid,
+            DateTime createTime, Int64 cardnumber = 0, int cvc = 0)
         {
             Id = id;
             UserId = userId;
@@ -35,6 +40,8 @@ namespace DataLayer.Entity
             ArriveTime = arriveTime;
             Paid = paid;
             CreateTime = createTime;
+            CardNumber = cardnumber;
+            CVC = cvc;
         }
     }
 }

@@ -15,10 +15,10 @@ namespace BIL.Services
 
         private StationEntity startStation;
         private StationEntity finalStation;
+
         public int RouteId { get; set; }
         public int TrainId { get; set; }
         public double Cost { get; set; }
-
         public string StartStation => startStation.Name;
         public string FinalStation => finalStation.Name;
         public RouteService(string DBpath)

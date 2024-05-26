@@ -42,7 +42,9 @@ namespace DataLayer.Repository
                 $"'{item.DepartTime}'," +
                 $"'{item.ArriveTime}'," +
                 $"{item.Paid}," +
-                $"'{item.CreateTime}')", connection);
+                $"'{item.CreateTime}'," +
+                $"{item.CardNumber}," +
+                $"{item.CVC})", connection);
             command.Parameters.AddWithValue("$cost", item.TotalCost);
             command.ExecuteNonQuery();
             connection.Close();
@@ -82,15 +84,17 @@ namespace DataLayer.Repository
                         string arrivalTime = reader.GetString(11);
                         bool paid = reader.GetBoolean(12);
                         DateTime createTime = DateTime.Parse(reader.GetString(13));
+                        Int64 cardNumber = reader.GetInt64(14);
+                        int cvc = reader.GetInt32(15);
 
                         if (payTickets.ContainsKey(userId))
                         {
-                            payTickets[userId].Add(new TicketEntity(id, userId, trainId, carType, carNumber, seatNumber, cost, date, startStation, finalStation, departTime, arrivalTime, paid, createTime));
+                            payTickets[userId].Add(new TicketEntity(id, userId, trainId, carType, carNumber, seatNumber, cost, date, startStation, finalStation, departTime, arrivalTime, paid, createTime, cardNumber, cvc));
                         }
                         else
                         {
                             payTickets.Add(userId, new List<TicketEntity>());
-                            payTickets[userId].Add(new TicketEntity(id, userId, trainId, carType, carNumber, seatNumber, cost, date, startStation, finalStation, departTime, arrivalTime, paid, createTime));
+                            payTickets[userId].Add(new TicketEntity(id, userId, trainId, carType, carNumber, seatNumber, cost, date, startStation, finalStation, departTime, arrivalTime, paid, createTime, cardNumber, cvc));
                         }
                     }
                 }
@@ -115,7 +119,9 @@ namespace DataLayer.Repository
                 $"finalstation ='{item.FinalStation}'," +
                 $"timedepart = '{item.DepartTime}'," +
                 $"timearrive = '{item.ArriveTime}'," +
-                $"paid = {item.Paid} WHERE id = {id}", connection);
+                $"paid = {item.Paid}," +
+                $"cardnumber = {item.CardNumber}," +
+                $"cvc = {item.CVC} WHERE id = {id}", connection);
             command.Parameters.AddWithValue("$cost", item.TotalCost);
             command.ExecuteNonQuery();
             connection.Close();
@@ -151,6 +157,23 @@ namespace DataLayer.Repository
             }
 
             return tickets2delete.Count > 0;
+        }
+
+        public void DeleteOldTickets()
+        {
+            var tickets2delete = payTickets
+                .Where(t => t.Value.Any(date => date.Date.Date < DateTime.Now.Date))
+                .ToList();
+
+            foreach (var (userId, userTickets) in tickets2delete)
+            {
+                var ticketsToRemove = userTickets.ToList();
+                foreach (var ticket in ticketsToRemove)
+                {
+                    Delete(ticket.Id);
+                    payTickets[userId].Remove(ticket);
+                }
+            }
         }
     }
 }

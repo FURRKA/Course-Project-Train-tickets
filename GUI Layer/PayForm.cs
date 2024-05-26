@@ -35,7 +35,6 @@ namespace GUI_Layer
                 }
                 else
                     MessageBox.Show("Недостаточно средств");
-
             }
             else
                 MessageBox.Show("Карты с таким номером нет в системе");      

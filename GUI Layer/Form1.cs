@@ -283,5 +283,21 @@ namespace GUI_Layer
                 }
             }
         }
+
+        private void deleteAccount_Click(object sender, EventArgs e)
+        {
+            if (dataService.UserHasOrders(user.Id))
+                MessageBox.Show("У вас есть активные заказы. Удаление аккаунта доступно при отсутвии заказов", "Операция запрещена", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            else
+            {
+                var result = MessageBox.Show("Вы уверены в удалении своего аккаунта?\nДля использования приложением потребуется заново создать аккаунт!", "Подтверждение удаления", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                if (result == DialogResult.Yes)
+                {
+                    dataService.DeleteUser(user.Id);
+                    DialogResult = DialogResult.Abort;
+                    Close();
+                }
+            }
+        }
     }
 }

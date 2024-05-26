@@ -1,5 +1,4 @@
-﻿using DataLayer.Entity;
-using DataLayer.Repository;
+﻿using DataLayer.Repository;
 
 namespace GUI_Layer
 {
@@ -21,7 +20,11 @@ namespace GUI_Layer
             {
                 var user = userData.Data.Find(item => item.Login == textBox1.Text && item.Password == textBox2.Text);
                 var mainForm = new Form1(DBPath, user);
-                mainForm.Show();
+                if (mainForm.ShowDialog() == DialogResult.Abort)
+                {
+                    userData.Data.Clear();
+                    userData.Read();
+                }
             }
             else
                 MessageBox.Show("Пользователя с таким логином или паролем не найдено");

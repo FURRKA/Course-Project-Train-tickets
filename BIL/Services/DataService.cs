@@ -8,11 +8,13 @@ namespace BIL.Services
         private SeatsRepository seats;
         private TrainCompositionRepository trainComposition;
         private OrdersRepository orders;
+        private ClientService clients;
         public DataService(string DBPath)
         {
             seats = new SeatsRepository(DBPath);
             trainComposition = new TrainCompositionRepository(DBPath);
             orders = new OrdersRepository(DBPath);
+            clients = new ClientService(DBPath);
 
             orders.Read();
             trainComposition.Read();
@@ -94,5 +96,7 @@ namespace BIL.Services
             service.Replenish(order.CardNumber, order.CVC, order.TotalCost);
             orders.Delete(ticketId);
         }
+
+        public void DeleteUser(int id) => clients.DeleteUser(id);
     }
 }

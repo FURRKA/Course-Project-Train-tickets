@@ -1,5 +1,6 @@
 ﻿using BIL.Services;
 using System.Text.Json.Serialization;
+using System.Transactions;
 
 namespace GUI_Layer
 {
@@ -9,11 +10,12 @@ namespace GUI_Layer
         private double totalCost;
         public Int64 CardNumber { get; set; }
         public int CVC { get; set; }
-        public PayForm(PaymentService service, double totalCost)
+        public PayForm(PaymentService service, double totalCost, string transactionInfo)
         {
             InitializeComponent();
             this.service = service;
             this.totalCost = totalCost;
+            label3.Text = transactionInfo;
         }
 
         private void button1_Click(object sender, EventArgs e)

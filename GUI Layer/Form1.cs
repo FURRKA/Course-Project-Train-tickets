@@ -1,6 +1,5 @@
 using BIL.Services;
 using DataLayer.Entity;
-using System.Diagnostics;
 
 namespace GUI_Layer
 {
@@ -249,7 +248,7 @@ namespace GUI_Layer
             var id = orders.Select(or => or.Id).ToList();
             double totalCost = orders.Sum(t => t.TotalCost);
 
-            var payForm = new PayForm(paymentService, totalCost);
+            var payForm = new PayForm(paymentService, totalCost, $"Заказ №{orders[0].Id}\nК оплате: {totalCost:F2}");
             if (payForm.ShowDialog() == DialogResult.OK)
             {
                 dataService.ChangePaidStatus(user.Id, id, payForm.CardNumber, payForm.CVC);

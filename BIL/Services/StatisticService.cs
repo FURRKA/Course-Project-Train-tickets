@@ -3,6 +3,22 @@ using DataLayer.Repository;
 
 namespace BIL.Services
 {
+    public enum Month
+    {
+        Январь = 1,
+        Февраль,
+        Март,
+        Апрель,
+        Май,
+        Июнь,
+        Июль,
+        Август,
+        Сентябрь,
+        Октябрь,
+        Ноябрь,
+        Декабрь
+    }
+
     public class StatisticService
     {
         private StatisticRepository statistic;
@@ -20,7 +36,7 @@ namespace BIL.Services
         public void CreateStatisticRecord(int year, int month, double value)
         {
             var statisticData = new StatisticEntity(month, year, value);
-            if (!statistic.RecordExist(statisticData))    
+            if (!statistic.RecordExist(statisticData))
                 statistic.Create(statisticData);
             else
                 AddRevenue(year, month, value);
@@ -64,9 +80,18 @@ namespace BIL.Services
 
         public List<RouteStatisticEntity> GetRouteStatistic(int month, int year)
         {
-            return routeStatistic.Data[year].Where(s => s.Month == month).ToList();
+            if (routeStatistic.Data.ContainsKey(year))
+                return routeStatistic.Data[year].Where(s => s.Month == month).ToList();
+            else
+                return new List<RouteStatisticEntity>();
         }
 
-        public List<StatisticEntity> GetStatistic(int year) => statistic.Data[year];
+        public List<StatisticEntity> GetStatistic(int year)
+        {
+            if (statistic.Data.ContainsKey(year))
+                return statistic.Data[year];
+            else
+                return new List<StatisticEntity>();
+        }
     }
 }

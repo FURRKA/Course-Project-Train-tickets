@@ -99,5 +99,15 @@ namespace BIL.Services
         {
             return directory.Data.Find(item => item.RouteId == routeID && item.StationId == stations.Data.Find(s => s.Name == stationName).Id).Time;
         }
+
+        public List<string> GetRoutesNames()
+        {
+            return routes.Data
+                .OrderBy(route => route.Id)
+                .Select(route => route.RouteName)
+                .ToList();
+        }
+
+        public int RouteCount() => routes.Count;
     }
 }

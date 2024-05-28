@@ -39,6 +39,9 @@
             this.chart2 = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
             this.dateTimePicker2 = new System.Windows.Forms.DateTimePicker();
+            this.label1 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.RouteInfoLabal = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.chart2)).BeginInit();
             this.SuspendLayout();
@@ -91,20 +94,54 @@
             this.dateTimePicker1.CustomFormat = "yyyy";
             this.dateTimePicker1.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
             this.dateTimePicker1.Location = new System.Drawing.Point(385, 328);
+            this.dateTimePicker1.MinDate = new System.DateTime(2023, 1, 1, 0, 0, 0, 0);
             this.dateTimePicker1.Name = "dateTimePicker1";
             this.dateTimePicker1.ShowUpDown = true;
             this.dateTimePicker1.Size = new System.Drawing.Size(67, 23);
             this.dateTimePicker1.TabIndex = 2;
+            this.dateTimePicker1.ValueChanged += new System.EventHandler(this.dateTimePicker1_ValueChanged);
             // 
             // dateTimePicker2
             // 
             this.dateTimePicker2.CustomFormat = "MM.yyyy";
             this.dateTimePicker2.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
             this.dateTimePicker2.Location = new System.Drawing.Point(874, 328);
+            this.dateTimePicker2.MinDate = new System.DateTime(2023, 1, 1, 0, 0, 0, 0);
             this.dateTimePicker2.Name = "dateTimePicker2";
             this.dateTimePicker2.ShowUpDown = true;
             this.dateTimePicker2.Size = new System.Drawing.Size(62, 23);
             this.dateTimePicker2.TabIndex = 3;
+            this.dateTimePicker2.ValueChanged += new System.EventHandler(this.dateTimePicker2_ValueChanged);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Century Gothic", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.label1.Location = new System.Drawing.Point(30, 39);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(46, 22);
+            this.label1.TabIndex = 4;
+            this.label1.Text = "BYN";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("Century Gothic", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.label2.Location = new System.Drawing.Point(198, 309);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(84, 22);
+            this.label2.TabIndex = 5;
+            this.label2.Text = "Месяцы";
+            // 
+            // RouteInfoLabal
+            // 
+            this.RouteInfoLabal.AutoSize = true;
+            this.RouteInfoLabal.Font = new System.Drawing.Font("Century Gothic", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.RouteInfoLabal.Location = new System.Drawing.Point(636, 172);
+            this.RouteInfoLabal.Name = "RouteInfoLabal";
+            this.RouteInfoLabal.Size = new System.Drawing.Size(84, 22);
+            this.RouteInfoLabal.TabIndex = 6;
+            this.RouteInfoLabal.Text = "Месяцы";
             // 
             // StatisticForm
             // 
@@ -112,6 +149,9 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(973, 380);
+            this.Controls.Add(this.RouteInfoLabal);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.dateTimePicker2);
             this.Controls.Add(this.dateTimePicker1);
             this.Controls.Add(this.chart2);
@@ -122,6 +162,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.chart2)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -131,5 +172,8 @@
         private System.Windows.Forms.DataVisualization.Charting.Chart chart2;
         private DateTimePicker dateTimePicker1;
         private DateTimePicker dateTimePicker2;
+        private Label label1;
+        private Label label2;
+        private Label RouteInfoLabal;
     }
 }

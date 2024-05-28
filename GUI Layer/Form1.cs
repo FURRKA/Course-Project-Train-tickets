@@ -313,8 +313,8 @@ namespace GUI_Layer
 
         private void button4_Click(object sender, EventArgs e)
         {
-            var statisticsForm = new StatisticForm();
-            statisticsForm.ShowDialog();
+            var statisticsForm = new StatisticForm(statisticService, routeService);
+            statisticsForm.Show();
         }
     }
 }

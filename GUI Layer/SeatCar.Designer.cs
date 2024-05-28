@@ -776,7 +776,7 @@
             this.Controls.Add(this.button2);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.pictureBox1);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Name = "SeatCar";
             this.Text = "Car";
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();

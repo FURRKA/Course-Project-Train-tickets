@@ -218,6 +218,7 @@
             this.Controls.Add(this.label2);
             this.Controls.Add(this.nameTextBox);
             this.Controls.Add(this.label1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Name = "Register";
             this.Text = "Регистрация";
             this.ResumeLayout(false);

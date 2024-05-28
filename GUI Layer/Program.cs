@@ -13,6 +13,7 @@ namespace GUI_Layer
             string path = "Data Source=D:\\GSTU\\ъобс\\Course Project Train tickets\\DataLayer\\DB_CourseWork.db";
             ApplicationConfiguration.Initialize();
             Application.Run(new Authorization(path));
+            //Application.Run(new StatisticForm());
         }
     }
 }

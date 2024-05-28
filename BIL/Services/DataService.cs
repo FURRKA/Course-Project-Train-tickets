@@ -89,11 +89,12 @@ namespace BIL.Services
             ids.ForEach(id => orders.Update(id));
         }
 
-        public void CancelTicket(int userId, int ticketId, PaymentService service)
+        public void CancelTicket(int userId, int ticketId, PaymentService paymentService, StatisticService statisticService)
         {
             var order = orders.Data[userId].Find(t => t.Id == ticketId);
             seats.FreeSeat(order.TrainId, order.CarNumber, order.Date.ToString(), order.SeatNumber);
-            service.Replenish(order.CardNumber, order.CVC, order.TotalCost);
+            paymentService.Replenish(order.CardNumber, order.CVC, order.TotalCost);
+            statisticService.DecreaseRevenue(order.Date.Year, order.Date.Month, order.TotalCost);
             orders.Delete(ticketId);
         }
 

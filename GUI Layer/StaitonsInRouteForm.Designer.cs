@@ -42,6 +42,7 @@
             this.routeGrid.Location = new System.Drawing.Point(-3, 35);
             this.routeGrid.Name = "routeGrid";
             this.routeGrid.ReadOnly = true;
+            this.routeGrid.RowHeadersVisible = false;
             this.routeGrid.RowTemplate.Height = 25;
             this.routeGrid.Size = new System.Drawing.Size(355, 395);
             this.routeGrid.TabIndex = 8;
@@ -63,7 +64,7 @@
             this.ClientSize = new System.Drawing.Size(349, 428);
             this.Controls.Add(this.routeGrid);
             this.Controls.Add(this.label7);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Name = "StaitonsInRouteForm";
             this.Text = "StaitonsInRouteForm";
             ((System.ComponentModel.ISupportInitialize)(this.routeGrid)).EndInit();

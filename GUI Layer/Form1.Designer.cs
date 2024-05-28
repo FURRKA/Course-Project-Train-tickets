@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.button1 = new System.Windows.Forms.Button();
@@ -48,6 +49,8 @@
             this.orderGrid = new System.Windows.Forms.DataGridView();
             this.label5 = new System.Windows.Forms.Label();
             this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.button4 = new System.Windows.Forms.Button();
+            this.button2 = new System.Windows.Forms.Button();
             this.deleteAccount = new System.Windows.Forms.Button();
             this.label11 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
@@ -166,7 +169,7 @@
             this.comboBox2.Name = "comboBox2";
             this.comboBox2.Size = new System.Drawing.Size(355, 23);
             this.comboBox2.TabIndex = 3;
-            this.comboBox2.SelectedIndexChanged += new System.EventHandler(this.UpdateComboBoxes);
+            this.comboBox2.SelectedIndexChanged += new System.EventHandler(this.CheckComboBoxes);
             // 
             // comboBox1
             // 
@@ -175,7 +178,7 @@
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.Size = new System.Drawing.Size(355, 23);
             this.comboBox1.TabIndex = 2;
-            this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.UpdateComboBoxes);
+            this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.CheckComboBoxes);
             // 
             // label1
             // 
@@ -253,9 +256,9 @@
             this.ordersLabel.Font = new System.Drawing.Font("Century Gothic", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.ordersLabel.Location = new System.Drawing.Point(24, 200);
             this.ordersLabel.Name = "ordersLabel";
-            this.ordersLabel.Size = new System.Drawing.Size(343, 30);
+            this.ordersLabel.Size = new System.Drawing.Size(330, 30);
             this.ordersLabel.TabIndex = 9;
-            this.ordersLabel.Text = "Нету действующих билетов";
+            this.ordersLabel.Text = "Нет действующих билетов";
             // 
             // orderGrid
             // 
@@ -263,6 +266,7 @@
             this.orderGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.orderGrid.Location = new System.Drawing.Point(0, 39);
             this.orderGrid.Name = "orderGrid";
+            this.orderGrid.RowHeadersVisible = false;
             this.orderGrid.RowTemplate.Height = 25;
             this.orderGrid.Size = new System.Drawing.Size(382, 386);
             this.orderGrid.TabIndex = 3;
@@ -280,6 +284,8 @@
             // 
             // tabPage3
             // 
+            this.tabPage3.Controls.Add(this.button4);
+            this.tabPage3.Controls.Add(this.button2);
             this.tabPage3.Controls.Add(this.deleteAccount);
             this.tabPage3.Controls.Add(this.label11);
             this.tabPage3.Controls.Add(this.label10);
@@ -291,6 +297,33 @@
             this.tabPage3.TabIndex = 5;
             this.tabPage3.Text = "Профиль";
             this.tabPage3.UseVisualStyleBackColor = true;
+            // 
+            // button4
+            // 
+            this.button4.BackColor = System.Drawing.SystemColors.Highlight;
+            this.button4.Font = new System.Drawing.Font("Century Gothic", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.button4.ForeColor = System.Drawing.SystemColors.Control;
+            this.button4.Location = new System.Drawing.Point(14, 289);
+            this.button4.Name = "button4";
+            this.button4.Size = new System.Drawing.Size(355, 35);
+            this.button4.TabIndex = 11;
+            this.button4.Text = "Статистика";
+            this.button4.UseVisualStyleBackColor = false;
+            this.button4.Visible = false;
+            this.button4.Click += new System.EventHandler(this.button4_Click);
+            // 
+            // button2
+            // 
+            this.button2.BackColor = System.Drawing.SystemColors.Highlight;
+            this.button2.Font = new System.Drawing.Font("Century Gothic", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.button2.ForeColor = System.Drawing.SystemColors.Control;
+            this.button2.Location = new System.Drawing.Point(12, 330);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(355, 35);
+            this.button2.TabIndex = 10;
+            this.button2.Text = "Изменить стоимость";
+            this.button2.UseVisualStyleBackColor = false;
+            this.button2.Visible = false;
             // 
             // deleteAccount
             // 
@@ -355,9 +388,9 @@
             this.bagLabel.Font = new System.Drawing.Font("Century Gothic", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.bagLabel.Location = new System.Drawing.Point(20, 197);
             this.bagLabel.Name = "bagLabel";
-            this.bagLabel.Size = new System.Drawing.Size(338, 30);
+            this.bagLabel.Size = new System.Drawing.Size(325, 30);
             this.bagLabel.TabIndex = 10;
-            this.bagLabel.Text = "Нету действующих заказов";
+            this.bagLabel.Text = "Нет действующих заказов";
             // 
             // button3
             // 
@@ -379,6 +412,7 @@
             this.paymentBasketGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.paymentBasketGrid.Location = new System.Drawing.Point(0, 36);
             this.paymentBasketGrid.Name = "paymentBasketGrid";
+            this.paymentBasketGrid.RowHeadersVisible = false;
             this.paymentBasketGrid.RowTemplate.Height = 25;
             this.paymentBasketGrid.Size = new System.Drawing.Size(382, 343);
             this.paymentBasketGrid.TabIndex = 6;
@@ -408,6 +442,7 @@
             this.ClientSize = new System.Drawing.Size(381, 450);
             this.Controls.Add(this.tabControl1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Form1";
             this.Text = "Поиск билетов";
             this.tabControl1.ResumeLayout(false);
@@ -459,5 +494,7 @@
         private Label label11;
         private System.Windows.Forms.Timer timer1;
         private Button deleteAccount;
+        private Button button4;
+        private Button button2;
     }
 }

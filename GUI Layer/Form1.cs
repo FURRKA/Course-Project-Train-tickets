@@ -8,6 +8,7 @@ namespace GUI_Layer
         private RouteService routeService;
         private DataService dataService;
         private PaymentService paymentService;
+        private StatisticService statisticService;
         private UserEnity user;
         private bool isColumnAdded = false;
         private bool cancelColumndAdded = false;
@@ -18,6 +19,7 @@ namespace GUI_Layer
             routeService = new RouteService(path);
             dataService = new DataService(path);
             paymentService = new PaymentService(path);
+            statisticService = new StatisticService(path);
 
             dateTimePicker1.MinDate = DateTime.Now;
             dateTimePicker1.MaxDate = DateTime.Now + TimeSpan.FromDays(60);
@@ -31,6 +33,11 @@ namespace GUI_Layer
 
             label10.Text = $"ФИО: {user.Name} {user.LastName} {user.SurName}\n" +
                 $"Паспорт: {user.Passport}\nEmail: {user.Email}";
+
+            if (user.Role == "lawyer")
+            {
+                button2.Visible = button4.Visible = true;
+            }    
 
             var cancelButton = new DataGridViewButtonColumn { HeaderText = "Отмена", Text = "Отменить", UseColumnTextForButtonValue = true };
 
@@ -54,7 +61,7 @@ namespace GUI_Layer
                         Тип = item.CarType,
                         НомерВагона = item.CarNumber,
                         Место = item.SeatNumber,
-                        Стоимость = item.TotalCost,
+                        Стоимость = $"{item.TotalCost:F2}",
                         Дата = item.Date,
                         НачальнаяСтанция = item.StartStation,
                         Отправление = item.DepartTime,
@@ -70,14 +77,13 @@ namespace GUI_Layer
                         Тип = item.CarType,
                         НомерВагона = item.CarNumber,
                         Место = item.SeatNumber,
-                        Стоимость = item.TotalCost,
+                        Стоимость = $"{item.TotalCost:F2}",
                         Дата = item.Date,
                         НачальнаяСтанция = item.StartStation,
                         Отправление = item.DepartTime,
                         КонечнаяСтанция = item.FinalStation,
                         Прибытие = item.ArriveTime
                     }).ToList();
-
 
                 if (!cancelColumndAdded && paidTickets)
                 {
@@ -91,7 +97,7 @@ namespace GUI_Layer
             {
                 if (orderGrid.Columns[e.ColumnIndex].HeaderText == cancelButton.HeaderText)
                 {
-                    dataService.CancelTicket(user.Id, (int)orderGrid[1, e.RowIndex].Value, paymentService);
+                    dataService.CancelTicket(user.Id, (int)orderGrid[1, e.RowIndex].Value, paymentService, statisticService);
                     orderGrid.DataSource = orderGrid.DataSource = dataService.GetTickets(user.Id).Where(ticket => ticket.Paid)
                     .Select(item => new
                     {
@@ -100,7 +106,7 @@ namespace GUI_Layer
                         Тип = item.CarType,
                         НомерВагона = item.CarNumber,
                         Место = item.SeatNumber,
-                        Стоимость = item.TotalCost,
+                        Стоимость = $"{item.TotalCost:F2}",
                         Дата = item.Date,
                         НачальнаяСтанция = item.StartStation,
                         Отправление = item.DepartTime,
@@ -109,6 +115,8 @@ namespace GUI_Layer
                     }).ToList();
                     orderGrid.Visible = dataService.UserHasOrders(user.Id);
                     ordersLabel.Visible = !dataService.UserHasOrders(user.Id);
+
+                    MessageBox.Show("Заказ успешно отменён", "Возврат средств", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
             };
         }
@@ -151,11 +159,10 @@ namespace GUI_Layer
                                         dateTimePicker1.Value.Date, routeService.StartStation, routeService.FinalStation, routeService.FindStationTime(routeService.RouteId, routeService.StartStation),
                                         routeService.FindStationTime(routeService.RouteId, routeService.FinalStation));
 
-
-
                                     paymentBasketGrid.Visible = true;
                                     bagLabel.Visible = false;
                                     button3.Enabled = true;
+                                    tabControl1.SelectedIndex = 5;
 
                                     paymentBasketGrid.DataSource = dataService.GetTickets(user.Id).Where(ticket => !ticket.Paid)
                                     .Select(item => new
@@ -165,7 +172,7 @@ namespace GUI_Layer
                                         Тип = item.CarType,
                                         НомерВагона = item.CarNumber,
                                         Место = item.SeatNumber,
-                                        Стоимость = item.TotalCost,
+                                        Стоимость = $"{item.TotalCost:F2}",
                                         Дата = item.Date,
                                         НачальнаяСтанция = item.StartStation,
                                         Отправление = item.DepartTime,
@@ -219,7 +226,7 @@ namespace GUI_Layer
                         Тип = item.CarType,
                         НомерВагона = item.CarNumber,
                         Место = item.SeatNumber,
-                        Стоимость = item.TotalCost,
+                        Стоимость = $"{item.TotalCost:F2}",
                         Дата = item.Date,
                         НачальнаяСтанция = item.StartStation,
                         Отправление = item.DepartTime,
@@ -236,7 +243,7 @@ namespace GUI_Layer
             }
         }
 
-        private void UpdateComboBoxes(Object sender, EventArgs e)
+        private void CheckComboBoxes(Object sender, EventArgs e)
         {
             var comboBoxes = tabControl1.TabPages[0].Controls.OfType<ComboBox>();
             button1.Enabled = comboBoxes.All(cb => cb.SelectedItem != null && !string.IsNullOrWhiteSpace(cb.Text));
@@ -258,6 +265,10 @@ namespace GUI_Layer
 
                 ordersLabel.Visible = false;
                 orderGrid.Visible = true;
+                tabControl1.SelectedIndex = 2;
+
+                statisticService.CreateStatisticRecord(dateTimePicker1.Value.Year, dateTimePicker1.Value.Month, totalCost);
+                statisticService.CreateRouteStatisticRecord(routeService.RouteId, dateTimePicker1.Value.Month, dateTimePicker1.Value.Year);
 
                 orderGrid.DataSource = dataService.GetTickets(user.Id).Where(ticket => ticket.Paid)
                     .Select(item => new
@@ -267,7 +278,7 @@ namespace GUI_Layer
                         Тип = item.CarType,
                         НомерВагона = item.CarNumber,
                         Место = item.SeatNumber,
-                        Стоимость = item.TotalCost,
+                        Стоимость = $"{item.TotalCost:F2}",
                         Дата = item.Date,
                         НачальнаяСтанция = item.StartStation,
                         Отправление = item.DepartTime,
@@ -298,6 +309,12 @@ namespace GUI_Layer
                     Close();
                 }
             }
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            var statisticsForm = new StatisticForm();
+            statisticsForm.ShowDialog();
         }
     }
 }
